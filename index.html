@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AIROC 2026 - Submission Assessment</title>
+
+<style>
+:root{
+--bg:#080d18;
+--card:#111a2d;
+--card2:#18243c;
+--line:#2a3956;
+--text:#f4f7ff;
+--muted:#9eabc2;
+--accent:#6ea8fe;
+--green:#35d07f;
+--red:#ff657c
+}
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+min-height:100vh;
+background:radial-gradient(circle at 20% 0%,#17294c 0,#080d18 45%);
+font-family:Inter,Segoe UI,Arial,sans-serif;
+color:var(--text)
+}
+
+.container{
+max-width:1050px;
+margin:auto;
+padding:35px 18px 60px
+}
+
+.header{
+text-align:center;
+margin-bottom:28px
+}
+
+.logo{
+font-size:30px;
+font-weight:900
+}
+
+.logo span{
+color:var(--accent)
+}
+
+.subtitle{
+color:var(--muted);
+margin-top:7px;
+font-size:14px
+}
+
+.step{
+display:flex;
+justify-content:center;
+gap:8px;
+margin:0 auto 24px
+}
+
+.step div{
+padding:7px 12px;
+border-radius:20px;
+background:#121c30;
+border:1px solid var(--line);
+color:var(--muted);
+font-size:12px
+}
+
+.step .active{
+background:#20365c;
+color:#dceaff;
+border-color:#4d78bd
+}
+
+.card{
+background:rgba(17,26,45,.96);
+border:1px solid var(--line);
+border-radius:20px;
+padding:25px;
+box-shadow:0 18px 50px #0005
+}
+
+.intro{
+max-width:650px;
+margin:auto
+}
+
+h2{
+margin:0 0 20px;
+font-size:20px
+}
+
+.field{
+margin-bottom:20px
+}
+
+label{
+display:block;
+font-size:13px;
+color:#cbd5e8;
+margin-bottom:8px
+}
+
+input{
+width:100%;
+padding:15px;
+border:1px solid var(--line);
+border-radius:12px;
+background:#0b1323;
+color:white;
+font-size:15px;
+outline:0
+}
+
+input:focus{
+border-color:var(--accent)
+}
+
+.categories{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px
+}
+
+.category{
+padding:20px 14px;
+border:1px solid var(--line);
+border-radius:15px;
+background:var(--card2);
+cursor:pointer;
+text-align:center;
+transition:.18s
+}
+
+.category:hover{
+transform:translateY(-2px);
+border-color:#5d83bd
+}
+
+.category.selected{
+border-color:var(--accent);
+background:#1b3155;
+box-shadow:0 0 0 2px #6ea8fe22
+}
+
+.category b{
+display:block;
+font-size:18px
+}
+
+.category small{
+color:var(--muted);
+display:block;
+margin-top:5px
+}
+
+button{
+border:0;
+border-radius:11px;
+padding:13px 18px;
+font-weight:800;
+cursor:pointer
+}
+
+.primary{
+background:var(--accent);
+color:#07101f
+}
+
+.secondary{
+background:#202d46;
+color:white
+}
+
+.back{
+margin-bottom:16px
+}
+
+.hidden{
+display:none
+}
+
+.criteria{
+display:grid;
+gap:12px
+}
+
+.criterion{
+background:var(--card2);
+border:1px solid var(--line);
+border-radius:14px;
+padding:15px
+}
+
+.criterion .top{
+display:flex;
+justify-content:space-between;
+gap:15px;
+align-items:center
+}
+
+.criterion strong{
+font-size:14px
+}
+
+.max{
+font-size:12px;
+color:var(--muted)
+}
+
+.score{
+margin-top:11px;
+display:flex;
+align-items:center;
+gap:10px
+}
+
+.score input{
+width:130px;
+text-align:center;
+font-size:18px;
+font-weight:800
+}
+
+.hint{
+font-size:11px;
+color:var(--muted)
+}
+
+.total{
+margin-top:17px;
+padding:18px;
+background:#0b1323;
+border:1px solid var(--line);
+border-radius:14px;
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+
+.total b{
+font-size:30px
+}
+
+.status{
+font-weight:800
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:16px;
+justify-content:space-between
+}
+
+.results{
+margin-top:25px
+}
+
+.tablewrap{
+overflow:auto
+}
+
+.table{
+width:100%;
+border-collapse:collapse
+}
+
+.table th,
+.table td{
+padding:11px;
+border-bottom:1px solid var(--line);
+text-align:left;
+font-size:13px;
+white-space:nowrap
+}
+
+.table th{
+color:var(--muted);
+font-size:12px
+}
+
+.pill{
+background:#233453;
+border-radius:7px;
+padding:5px 8px;
+font-size:11px
+}
+
+.empty{
+text-align:center;
+color:var(--muted);
+padding:22px
+}
+
+.toast{
+position:fixed;
+right:20px;
+bottom:20px;
+background:#1d2b44;
+border:1px solid var(--line);
+padding:13px 16px;
+border-radius:12px;
+display:none;
+z-index:999
+}
+
+/* =========================
+   UPLOAD FOTO
+========================= */
+
+.photo-upload{
+background:#0b1323;
+border:1px dashed #40567d;
+border-radius:14px;
+padding:18px;
+text-align:center
+}
+
+.photo-upload:hover{
+border-color:var(--accent)
+}
+
+.photo-upload input{
+border:0;
+background:transparent;
+padding:8px 0;
+cursor:pointer
+}
+
+.photo-preview{
+margin-top:12px;
+display:none
+}
+
+.photo-preview img{
+max-width:100%;
+max-height:250px;
+border-radius:12px;
+border:1px solid var(--line);
+object-fit:contain
+}
+
+.photo-name{
+font-size:12px;
+color:var(--muted);
+margin-top:7px
+}
+
+.photo-actions{
+display:flex;
+gap:8px;
+justify-content:center;
+margin-top:10px
+}
+
+.remove-photo{
+background:#3a1f2a;
+color:#ff8b9b;
+padding:8px 12px;
+font-size:12px
+}
+
+.view-photo{
+background:#263b5e;
+color:white;
+padding:7px 10px;
+font-size:11px
+}
+
+.no-photo{
+color:var(--muted);
+font-size:11px
+}
+
+.number{
+font-weight:900;
+color:var(--accent);
+font-size:15px
+}
+
+@media(max-width:650px){
+
+.categories{
+grid-template-columns:1fr
+}
+
+.actions{
+flex-direction:column
+}
+
+.actions button{
+width:100%
+}
+
+.photo-preview img{
+max-height:200px
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header class="header">
+<div class="logo">AIROC <span>2026</span></div>
+<div class="subtitle">
+Submission Assessment — Babak Penyisihan Online
+</div>
+</header>
+
+<div class="step">
+<div id="s1" class="active">1. Data Tim</div>
+<div id="s2">2. Penilaian</div>
+</div>
+
+<!-- =========================
+     PAGE 1
+========================= -->
+
+<section id="page1" class="card intro">
+
+<h2>👥 Data Tim</h2>
+
+<div class="field">
+<label>NAMA TIM</label>
+<input id="team" placeholder="Masukkan nama tim...">
+</div>
+
+<div class="field">
+
+<label>PILIH KATEGORI</label>
+
+<div class="categories">
+
+<div class="category"
+data-cat="SD"
+onclick="selectCat('SD')">
+<b>SD</b>
+<small>Creator</small>
+</div>
+
+<div class="category"
+data-cat="SMP"
+onclick="selectCat('SMP')">
+<b>SMP</b>
+<small>Explorer</small>
+</div>
+
+<div class="category"
+data-cat="SMA"
+onclick="selectCat('SMA')">
+<b>SMA</b>
+<small>Master</small>
+</div>
+
+</div>
+</div>
+
+<button
+class="primary"
+style="width:100%"
+onclick="startAssessment()">
+
+Lanjut ke Penilaian →
+
+</button>
+
+</section>
+
+
+<!-- =========================
+     PAGE 2
+========================= -->
+
+<section id="page2" class="card hidden">
+
+<button
+class="secondary back"
+onclick="backToTeam()">
+
+← Kembali
+
+</button>
+
+<h2>
+📊 Penilaian <span id="catTitle"></span>
+</h2>
+
+<div style="color:var(--muted);font-size:13px;margin:-10px 0 18px">
+
+Tim:
+<b id="teamTitle" style="color:white"></b>
+
+</div>
+
+<div
+class="criteria"
+id="criteria">
+</div>
+
+
+<!-- TOTAL -->
+
+<div class="total">
+
+<div>
+
+<small style="color:var(--muted)">
+TOTAL NILAI
+</small>
+
+<br>
+
+<b id="total">0</b>
+
+<span style="color:var(--muted)">
+/ 100
+</span>
+
+</div>
+
+<div id="status" class="status">
+BELUM DINILAI
+</div>
+
+</div>
+
+
+<!-- CATATAN -->
+
+<div
+class="field"
+style="margin-top:17px">
+
+<label>
+CATATAN JURI (OPSIONAL)
+</label>
+
+<input
+id="notes"
+placeholder="Catatan untuk tim...">
+
+</div>
+
+
+<!-- =========================
+     UPLOAD FOTO
+========================= -->
+
+<div class="field">
+
+<label>
+📷 FOTO / BUKTI ERROR (OPSIONAL)
+</label>
+
+<div class="photo-upload">
+
+<div style="font-size:28px">
+📸
+</div>
+
+<div style="font-size:13px;margin:6px 0;color:#cbd5e8">
+Upload foto bagian robot / program yang error
+</div>
+
+<div style="font-size:11px;color:var(--muted);margin-bottom:8px">
+Contoh: foto robot, hasil OLED, wiring, atau bagian coding yang salah
+</div>
+
+<input
+type="file"
+id="photo"
+accept="image/*"
+onchange="previewPhoto(event)">
+
+<div
+id="photoPreview"
+class="photo-preview">
+
+<img id="previewImg">
+
+<div
+id="photoName"
+class="photo-name">
+</div>
+
+<div class="photo-actions">
+
+<button
+type="button"
+class="remove-photo"
+onclick="removePhoto()">
+
+🗑 Hapus Foto
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ACTION -->
+
+<div class="actions">
+
+<button
+class="secondary"
+onclick="backToTeam()">
+
+← Ubah Data Tim
+
+</button>
+
+<button
+class="primary"
+onclick="saveScore()">
+
+💾 Simpan Penilaian
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     RESULTS
+========================= -->
+
+<section class="card results">
+
+<h2>
+📋 Hasil Penilaian Tersimpan
+</h2>
+
+<div class="tablewrap">
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>No.</th>
+<th>Nama Tim</th>
+<th>Kategori</th>
+<th>Nilai</th>
+<th>Status</th>
+<th>Foto</th>
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tbody">
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="secondary"
+onclick="exportCSV()">
+
+⬇ Export CSV
+
+</button>
+
+<button
+class="secondary"
+onclick="clearAll()">
+
+🗑 Hapus Semua
+
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+<div
+class="toast"
+id="toast">
+</div>
+
+
+<script>
+
+const schemes={
+
+SD:[
+["Ketepatan membuat bentuk persegi",40],
+["Sinkronisasi RGB",30],
+["Akurasi Buzzer",30]
+],
+
+SMP:[
+["Ketepatan Logika Algoritma Warna & OLED",40],
+["Akurasi Pembacaan 3 Warna Utama",35],
+["Kebersihan Kode & Efisiensi Delay",25]
+],
+
+SMA:[
+["Ketepatan Debugging Logika Program",40],
+["Akurasi Deteksi Warna,buzzer & Tampilan OLED",40],
+["Kerapihan Kode & Efisiensi Program",20]
+]
+
+};
+
+
+let selectedCat="";
+
+let data=JSON.parse(
+localStorage.getItem("airocScores")||"[]"
+);
+
+
+/* =========================
+   PILIH KATEGORI
+========================= */
+
+function selectCat(cat){
+
+selectedCat=cat;
+
+document
+.querySelectorAll(".category")
+.forEach(e=>
+e.classList.toggle(
+"selected",
+e.dataset.cat===cat
+));
+
+}
+
+
+/* =========================
+   MULAI PENILAIAN
+========================= */
+
+function startAssessment(){
+
+const team=
+document.getElementById("team")
+.value.trim();
+
+if(!team){
+
+show("Masukkan nama tim terlebih dahulu");
+
+return;
+
+}
+
+if(!selectedCat){
+
+show("Pilih kategori SD, SMP, atau SMA");
+
+return;
+
+}
+
+document
+.getElementById("page1")
+.classList.add("hidden");
+
+document
+.getElementById("page2")
+.classList.remove("hidden");
+
+document
+.getElementById("s1")
+.classList.remove("active");
+
+document
+.getElementById("s2")
+.classList.add("active");
+
+document
+.getElementById("teamTitle")
+.textContent=team;
+
+document
+.getElementById("catTitle")
+.textContent=selectedCat;
+
+renderCriteria();
+
+}
+
+
+/* =========================
+   KEMBALI
+========================= */
+
+function backToTeam(){
+
+document
+.getElementById("page2")
+.classList.add("hidden");
+
+document
+.getElementById("page1")
+.classList.remove("hidden");
+
+document
+.getElementById("s2")
+.classList.remove("active");
+
+document
+.getElementById("s1")
+.classList.add("active");
+
+}
+
+
+/* =========================
+   RENDER KRITERIA
+========================= */
+
+function renderCriteria(){
+
+document.getElementById("criteria").innerHTML=
+
+schemes[selectedCat]
+.map((x,i)=>`
+
+<div class="criterion">
+
+<div class="top">
+
+<strong>
+${x[0]}
+</strong>
+
+<span class="max">
+MAX ${x[1]}
+</span>
+
+</div>
+
+<div class="score">
+
+<input
+class="scoreInput"
+type="number"
+min="0"
+max="${x[1]}"
+value="0"
+data-max="${x[1]}"
+oninput="calc()">
+
+<span class="hint">
+Nilai 0–${x[1]}
+</span>
+
+</div>
+
+</div>
+
+`).join("");
+
+calc();
+
+}
+
+
+/* =========================
+   HITUNG NILAI
+========================= */
+
+function calc(){
+
+let total=0;
+
+document
+.querySelectorAll(".scoreInput")
+.forEach(e=>{
+
+let max=+e.dataset.max;
+
+let v=Math.max(
+0,
+Math.min(
+max,
++e.value||0
+)
+);
+
+e.value=v;
+
+total+=v;
+
+});
+
+document
+.getElementById("total")
+.textContent=total;
+
+document
+.getElementById("status")
+.textContent=
+total>=70
+?"LULUS"
+:"BELUM LULUS";
+
+document
+.getElementById("status")
+.style.color=
+total>=70
+?"var(--green)"
+:"var(--red)";
+
+}
+
+
+/* =========================
+   PREVIEW FOTO
+========================= */
+
+function previewPhoto(event){
+
+const file=event.target.files[0];
+
+if(!file)return;
+
+
+/* batas 5 MB */
+
+if(file.size>5*1024*1024){
+
+show("Ukuran foto maksimal 5 MB");
+
+event.target.value="";
+
+return;
+
+}
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+
+document
+.getElementById("previewImg")
+.src=e.target.result;
+
+document
+.getElementById("photoName")
+.textContent=file.name;
+
+document
+.getElementById("photoPreview")
+.style.display="block";
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+
+/* =========================
+   HAPUS FOTO
+========================= */
+
+function removePhoto(){
+
+document
+.getElementById("photo")
+.value="";
+
+document
+.getElementById("previewImg")
+.src="";
+
+document
+.getElementById("photoName")
+.textContent="";
+
+document
+.getElementById("photoPreview")
+.style.display="none";
+
+}
+
+
+/* =========================
+   SIMPAN
+========================= */
+
+function saveScore(){
+
+const team=
+document
+.getElementById("team")
+.value.trim();
+
+const scores=
+[
+...document.querySelectorAll(".scoreInput")
+]
+.map((e,i)=>({
+
+name:schemes[selectedCat][i][0],
+
+score:+e.value,
+
+max:+e.dataset.max
+
+}));
+
+const total=
+scores.reduce(
+(a,b)=>a+b.score,
+0
+);
+
+
+/* ambil foto */
+
+const photoInput=
+document.getElementById("photo");
+
+let photo="";
+
+if(photoInput.files.length){
+
+photo=
+document.getElementById("previewImg").src;
+
+}
+
+
+/* simpan */
+
+data.push({
+
+id:Date.now(),
+
+team:team,
+
+cat:selectedCat,
+
+scores:scores,
+
+total:total,
+
+notes:
+document.getElementById("notes").value,
+
+photo:photo,
+
+time:
+new Date().toLocaleString("id-ID")
+
+});
+
+
+localStorage.setItem(
+"airocScores",
+JSON.stringify(data)
+);
+
+renderTable();
+
+show("Penilaian berhasil disimpan");
+
+
+/* reset */
+
+document.getElementById("notes").value="";
+
+removePhoto();
+
+backToTeam();
+
+document.getElementById("team").value="";
+
+selectedCat="";
+
+document
+.querySelectorAll(".category")
+.forEach(e=>
+e.classList.remove("selected")
+);
+
+}
+
+
+/* =========================
+   TABEL
+========================= */
+
+function renderTable(){
+
+document.getElementById("tbody").innerHTML=
+
+data.length
+
+?
+
+data.map((x,index)=>`
+
+<tr>
+
+<td>
+<span class="number">
+${index+1}.
+</span>
+</td>
+
+<td>
+<b>${esc(x.team)}</b>
+</td>
+
+<td>
+<span class="pill">
+${x.cat}
+</span>
+</td>
+
+<td>
+<b style="color:var(--green)">
+${x.total}/100
+</b>
+</td>
+
+<td>
+${x.total>=70
+?"<span style='color:var(--green);font-weight:800'>LULUS</span>"
+:"<span style='color:var(--red);font-weight:800'>BELUM LULUS</span>"
+}
+</td>
+
+<td>
+
+${
+x.photo
+
+?
+
+`<button
+class="view-photo"
+onclick="viewPhoto(${x.id})">
+
+📷 Lihat
+
+</button>`
+
+:
+
+`<span class="no-photo">
+Tidak ada
+</span>`
+
+}
+
+</td>
+
+<td>
+
+<button
+class="secondary"
+style="padding:7px 10px"
+onclick="del(${x.id})">
+
+Hapus
+
+</button>
+
+</td>
+
+</tr>
+
+`).join("")
+
+:
+
+`<tr>
+<td colspan="7" class="empty">
+Belum ada penilaian.
+</td>
+</tr>`;
+
+}
+
+
+/* =========================
+   LIHAT FOTO
+========================= */
+
+function viewPhoto(id){
+
+const item=
+data.find(x=>x.id===id);
+
+if(!item || !item.photo){
+
+show("Foto tidak ditemukan");
+
+return;
+
+}
+
+
+/* buka foto di tab baru */
+
+const win=
+window.open();
+
+win.document.write(`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Foto Error - ${esc(item.team)}</title>
+
+<style>
+
+body{
+margin:0;
+background:#080d18;
+color:white;
+font-family:Arial;
+text-align:center;
+padding:25px
+}
+
+h2{
+margin-bottom:20px
+}
+
+img{
+max-width:95%;
+max-height:80vh;
+border-radius:15px;
+border:1px solid #2a3956
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>
+📷 ${esc(item.team)}
+</h2>
+
+<img src="${item.photo}">
+
+</body>
+
+</html>
+
+`);
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+function del(id){
+
+data=
+data.filter(x=>x.id!==id);
+
+localStorage.setItem(
+"airocScores",
+JSON.stringify(data)
+);
+
+renderTable();
+
+}
+
+
+/* =========================
+   CLEAR ALL
+========================= */
+
+function clearAll(){
+
+if(confirm("Hapus semua hasil penilaian?")){
+
+data=[];
+
+localStorage.removeItem(
+"airocScores"
+);
+
+renderTable();
+
+}
+
+}
+
+
+/* =========================
+   EXPORT CSV
+========================= */
+
+function exportCSV(){
+
+if(!data.length){
+
+show("Belum ada data");
+
+return;
+
+}
+
+let rows=[
+
+[
+"No",
+"Nama Tim",
+"Kategori",
+"Total",
+"Status",
+"Catatan",
+"Foto",
+"Waktu"
+],
+
+...data.map((x,index)=>[
+
+index+1,
+
+x.team,
+
+x.cat,
+
+x.total,
+
+x.total>=70
+?"LULUS"
+:"BELUM LULUS",
+
+x.notes,
+
+x.photo
+?"Ada foto"
+:"Tidak ada foto",
+
+x.time
+
+])
+
+];
+
+
+let csv=
+rows
+.map(r=>
+r.map(v=>
+`"${String(v).replaceAll('"','""')}"`
+).join(",")
+)
+.join("\n");
+
+
+let blob=
+new Blob(
+["\ufeff"+csv],
+{
+type:"text/csv;charset=utf-8"
+}
+);
+
+
+let a=
+document.createElement("a");
+
+a.href=
+URL.createObjectURL(blob);
+
+a.download=
+"AIROC_2026_Penilaian.csv";
+
+a.click();
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function show(t){
+
+let e=
+document.getElementById("toast");
+
+e.textContent=t;
+
+e.style.display="block";
+
+setTimeout(
+()=>e.style.display="none",
+2200
+);
+
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function esc(s){
+
+return String(s).replace(
+/[&<>"']/g,
+m=>
+({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+}[m])
+);
+
+}
+
+
+/* =========================
+   LOAD DATA
+========================= */
+
+renderTable();
+
+</script>
+
+</body>
+</html>
